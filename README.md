@@ -1,4 +1,4 @@
-# Namu  &#45208&#47924
+# Namu - 나무
 
 This game is a beat'em up videogame inspired by diablo and with a fantasy setting (a bit like Ultima Online).
 The main aim is to play around with python and the entity system component framework.
