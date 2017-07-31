@@ -1,0 +1,5 @@
+gold: 20
+hp: [30, 40]
+name: Bugbear
+skills: [meelefight, flee, roar]
+spritesheet: enemySprite.yml

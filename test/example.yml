@@ -1,0 +1,10 @@
+# this is a comment
+# Example definition of a monster/enemy
+
+name: Bugbear # name of the enemy generic
+hp: [30, 40] #min and max hp, determined randomly 
+spritesheet: enemySprite.yml # 
+gold: 20
+skills:
+- meelefight
+- flee
