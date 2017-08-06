@@ -188,7 +188,7 @@ def create_boxes(sprite_layer, dict_yml):
 
 def main():
 
-    dict_yml = load_yml('spritesheet_example.yml')
+    dict_yml = load_yml('spritesheet_test.yml')
 
 
     spritesheet_img = pyglet.image.load('../images/' + dict_yml['image'])
