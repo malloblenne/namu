@@ -60,9 +60,9 @@ def load_yml(path):
     return []
 
 
-def main():
+def main(file_yml):
 
-    dict_yml = load_yml('spritesheet_test.yml')
+    dict_yml = load_yml(file_yml)
 
     spritesheet_img = pyglet.image.load('../images/' + dict_yml['image'])
 
@@ -97,4 +97,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    print('Number of arguments:', len(sys.argv), 'arguments.')
+    print('Argument List:', str(sys.argv))
+    file_yml = 'spritesheet_test.yml' if len(sys.argv) < 2 else sys.argv[1]
+    main(file_yml)
