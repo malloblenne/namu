@@ -9,24 +9,21 @@ import yaml
 
 import cocos
 from cocos.director import director
-from cocos.layer import Layer
-from cocos.scene import Scene
-from cocos.sprite import Sprite
 
 import pyglet
 
 
-def loadAnimation(list_coord, sprite_img):
+def load_animation(list_coord, sprite_img):
     regions = []
     for coords in list_coord:
         x, top_y_img, width, height = coords
         bottom_y = sprite_img.height - top_y_img - height
         image_part = sprite_img.get_region(
-                    x=x, y=bottom_y, width=width, height=height)
+            x=x, y=bottom_y, width=width, height=height)
         regions.append(image_part)
         # create an animation from the list of selected regions
     animation = pyglet.image.Animation.from_image_sequence(
-            sequence=regions, period=0.1, loop=True)
+        sequence=regions, period=0.1, loop=True)
     return animation
 
 
@@ -44,14 +41,17 @@ class AnimationNode(cocos.cocosnode.CocosNode):
         self.y = y
         self._dict_yml = dict_yml
         self.name = tag_action
-        self.animation = loadAnimation(dict_yml[tag_action], sprite_img)
-        self.sprite = pyglet.sprite.Sprite(img = self.animation, x = self.x, y = self.y)
+        self.animation = load_animation(dict_yml[tag_action], sprite_img)
+        self.sprite = pyglet.sprite.Sprite(
+            img=self.animation, x=self.x, y=self.y)
 
     def draw(self):
         super(AnimationNode, self).draw()
         self.sprite.draw()
 
 # Load YML
+
+
 def load_yml(path):
     with open(path) as file:
         mystr = file.read()
@@ -60,16 +60,14 @@ def load_yml(path):
     return []
 
 
-
 def main():
 
     dict_yml = load_yml('spritesheet_test.yml')
 
-
     spritesheet_img = pyglet.image.load('../images/' + dict_yml['image'])
 
     #director.init(width = spritesheet_img.width, height = spritesheet_img.height, resizable = True)
-    director.init(width = 800, height = 600, resizable = True)
+    director.init(width=800, height=600, resizable=True)
     main_scene = cocos.scene.Scene()
 
     # Create layer with spritesheet
@@ -84,8 +82,9 @@ def main():
 
     # Test animation
     dict_noimg = dict_yml.copy()
-    dict_noimg.pop('image',None)
-    keys = sorted(list(dict_noimg.keys())) # since dict is not sorted, sort alphabetically before plotting
+    dict_noimg.pop('image', None)
+    # since dict is not sorted, sort alphabetically before plotting
+    keys = sorted(list(dict_noimg.keys()))
     for i, k in enumerate(keys):
         row = i // 7
         col = i - row * 7
@@ -93,10 +92,8 @@ def main():
         print('row ', row, ' col ', col, ' k ', k)
         anim = AnimationNode(dict_yml, k, col * 64, row * 64, spritesheet_img)
         layer.add(anim)
-        
-    
-    director.run(main_scene)
 
+    director.run(main_scene)
 
 
 if __name__ == "__main__":
