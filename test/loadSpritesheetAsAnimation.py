@@ -19,8 +19,8 @@ import pyglet
 def loadAnimation(list_coord, sprite_img):
     regions = []
     for coords in list_coord:
-        x, top_y, width, height = coords
-        bottom_y = sprite_img.height - top_y
+        x, top_y_img, width, height = coords
+        bottom_y = sprite_img.height - top_y_img - height
         image_part = sprite_img.get_region(
                     x=x, y=bottom_y, width=width, height=height)
         regions.append(image_part)
@@ -85,15 +85,12 @@ def main():
     # Test animation
     dict_noimg = dict_yml.copy()
     dict_noimg.pop('image',None)
-    keys = dict_noimg.keys()
+    keys = sorted(list(dict_noimg.keys())) # since dict is not sorted, sort alphabetically before plotting
     for i, k in enumerate(keys):
         row = i // 7
         col = i - row * 7
 
         print('row ', row, ' col ', col, ' k ', k)
-        if i > 15:
-            # It crashes unreasonably if too many sprites are loaded
-            break
         anim = AnimationNode(dict_yml, k, col * 64, row * 64, spritesheet_img)
         layer.add(anim)
         
