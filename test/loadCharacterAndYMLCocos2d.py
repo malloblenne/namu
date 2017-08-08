@@ -183,7 +183,7 @@ def create_layer_box(scene, dict_yml):
 def create_boxes(sprite_layer, dict_yml):
     #sprite_layer.add(SquareNode(color = (1, 1, 0, 0.2), x = 0, y = 0))
     #sprite_layer.add(SquareNode(color = (1, 0, 1, 0.2), x = 10, y = 10))
-    box = BoxesNode(dict_yml, sprite_layer.image.width, sprite_layer.image.height)
+    box = BoxesNode(dict_yml['actions'], sprite_layer.image.width, sprite_layer.image.height)
     sprite_layer.add(box)
 
 def main(file_yml):

@@ -99,7 +99,7 @@ def flip_origin_top_left():
 
 
 def plot_box_label_yml(yml_dict, scale_x, scale_y):
-    for key, value in yml_dict.items():
+    for key, value in yml_dict['actions'].items():
         # the key will print a label
         print(key)
         i = 0

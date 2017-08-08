@@ -81,8 +81,7 @@ def main(file_yml):
     #create_layer_box(main_scene, dict_yml)
 
     # Test animation
-    dict_noimg = dict_yml.copy()
-    dict_noimg.pop('image', None)
+    dict_noimg = dict_yml['actions']
     # since dict is not sorted, sort alphabetically before plotting
     keys = sorted(list(dict_noimg.keys()))
     for i, k in enumerate(keys):
@@ -90,7 +89,7 @@ def main(file_yml):
         col = i - row * 7
 
         print('row ', row, ' col ', col, ' k ', k)
-        anim = AnimationNode(dict_yml, k, col * 64, row * 64, spritesheet_img)
+        anim = AnimationNode(dict_yml['actions'], k, col * 64, row * 64, spritesheet_img)
         layer.add(anim)
 
     director.run(main_scene)

@@ -27,13 +27,13 @@ def main():
         print('error different sizes ', len(list_img_per_action_dir), '  ', len(list_action_dir))
 
     dict_yml = {'image' : 'spritesheet.png'}
-
+    dict_actions = dict()
     for i, act in enumerate(list_action_dir):
         list_imgs = []
         for j in range(list_img_per_action_dir[i]):
             list_imgs.append([j * WIDTH_CHAR, i * HEIGHT_CHAR, WIDTH_CHAR, HEIGHT_CHAR])
-        dict_yml[act] = list_imgs
-
+        dict_actions[act] = list_imgs
+    dict_yml['actions'] = dict_actions
     str_yml = yaml.dump(dict_yml)
 
     with open('spritesheet_test.yml','w') as writer:
