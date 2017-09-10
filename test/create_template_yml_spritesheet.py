@@ -16,7 +16,7 @@ def main():
     HEIGHT_CHAR = 64
 
     list_actions = ['spellcast', 'thrust', 'walk', 'slash', 'shoot']
-    list_dir = ['_up', '_left', '_right', '_down']
+    list_dir = ['_up', '_left', '_down', '_right']
 
     list_action_dir = [act + dir for act in list_actions for dir in list_dir]
     list_action_dir.append('hurt_down')
