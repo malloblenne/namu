@@ -21,10 +21,18 @@ def load_animation(list_coord, sprite_img):
         image_part = sprite_img.get_region(
             x=x, y=bottom_y, width=width, height=height)
         regions.append(image_part)
+    if len(regions) > 1 :
         # create an animation from the list of selected regions
-    animation = pyglet.image.Animation.from_image_sequence(
-        sequence=regions, period=0.1, loop=True)
-    return animation
+        animation = pyglet.image.Animation.from_image_sequence(
+                    sequence=regions, period=0.1, loop=True)
+        return animation
+    elif regions:
+        # a single image
+        image = regions[0]
+        return image
+    else :
+        return None
+    
 
 
 #batch = pyglet.graphics.Batch()

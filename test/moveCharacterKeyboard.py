@@ -112,6 +112,8 @@ class Velocity:
     def __init__(self, x=0.0, y=0.0):
         self.x = x
         self.y = y
+        self.speed = 3
+        self.speed_diagonal = self.speed ** 0.5
 
 
 class Renderable:
@@ -123,6 +125,7 @@ class Renderable:
 class SpriteSheetAnimation:
     def __init__(self, dict_yml):
         self._dict_yml = dict_yml
+        self.current_action = 'walk_down'
 
         spritesheet_img = pyglet.image.load('../images/' + dict_yml['image'])
         self.animations = {}
@@ -170,31 +173,75 @@ class PlayerKeyProcessor(esper.Processor):
         # This will iterate over every Entity that has BOTH of these components:
         for ent, (vel, rend, sprit) in self.world.get_components(Velocity, Renderable, SpriteSheetAnimation):
             # Trick to restart the animation
-            rend.sprite.image.frames[0].duration = rend.sprite.image.frames[1].duration
+            #rend.sprite.image.frames[0].duration = rend.sprite.image.frames[1].duration
             # Choose correct animation
             if self.keyboard[key.UP] and not self.up:
-                rend.sprite.image = sprit.animations['walk_up']
-                self.up = True
+                #rend.sprite.image = sprit.animations['walk_up']
+                #sprit.current_action = 'walk_up'
+                #self.up = True
+                vel.y = 1
             elif self.keyboard[key.DOWN] and not self.down:
-                rend.sprite.image = sprit.animations['walk_down']
-                self.down = True
+                #rend.sprite.image = sprit.animations['walk_down']
+                #sprit.current_action = 'walk_down'
+                #self.down = True
+                vel.y = - 1
             elif self.keyboard[key.LEFT] and not self.left:
-                rend.sprite.image = sprit.animations['walk_left']
-                self.Left = True
+                #rend.sprite.image = sprit.animations['walk_left']
+                #sprit.current_action = 'walk_left'
+                #self.Left = True
+                vel.x = - 1
             elif self.keyboard[key.RIGHT] and not self.right:
-                rend.sprite.image = sprit.animations['walk_right']
-                self.right = True
+                #rend.sprite.image = sprit.animations['walk_right']
+                #sprit.current_action = 'walk_right'
+                #self.right = True
+                vel.x = 1
             
             self.up = self.keyboard[key.UP]
             self.down = self.keyboard[key.DOWN]
             self.left = self.keyboard[key.LEFT]
             self.right = self.keyboard[key.RIGHT]
 
+            # stop speed in one direction if none of the keys
+            # for that direction is pressed
+            if not(self.up or self.down):
+                vel.y = 0
+
+            if not(self.left or self.right):
+                vel.x = 0
+
+            # when going diagonal, sqrt or /2 the speed
+            speed_to_apply = vel.speed_diagonal if vel.x and vel.y else vel.speed
+            if vel.x:
+                vel.x = abs(vel.x) / vel.x * speed_to_apply
+            if vel.y:
+                vel.y = abs(vel.y) / vel.y * speed_to_apply
+
             # Stop animation if no key pressed (e.g., by pausing one of the frame)
             if not(self.up or self.down or self.left or self.right):
-                rend.sprite.image.frames[0].duration = None
+                if not('_still' in sprit.current_action):
+                    sprit.current_action = sprit.current_action + '_still'
+                    rend.sprite.image = sprit.animations[sprit.current_action]
             else:
-                rend.sprite.image.frames[0].duration = rend.sprite.image.frames[1].duration
+                # Animations
+                if vel.y > 0 and not vel.x:
+                    if sprit.current_action != 'walk_up':
+                        rend.sprite.image = sprit.animations['walk_up']
+                        sprit.current_action = 'walk_up'
+                elif vel.y < 0 and not vel.x:
+                    if sprit.current_action != 'walk_down':
+                        rend.sprite.image = sprit.animations['walk_down']
+                        sprit.current_action = 'walk_down'
+                elif vel.x < 0 and not vel.y:
+                    if sprit.current_action != 'walk_left':
+                        rend.sprite.image = sprit.animations['walk_left']
+                        sprit.current_action = 'walk_left'
+                elif vel.x > 0 and not vel.y:
+                    if sprit.current_action != 'walk_right':
+                        rend.sprite.image = sprit.animations['walk_right']
+                        sprit.current_action = 'walk_right'
+
+
+                
 
 
 def main(file_yml):

@@ -28,11 +28,22 @@ def main():
 
     dict_yml = {'image' : 'spritesheet.png'}
     dict_actions = dict()
+    # animations
     for i, act in enumerate(list_action_dir):
         list_imgs = []
         for j in range(list_img_per_action_dir[i]):
             list_imgs.append([j * WIDTH_CHAR, i * HEIGHT_CHAR, WIDTH_CHAR, HEIGHT_CHAR])
         dict_actions[act] = list_imgs
+    
+    # static images (first of each animation e.g.)
+    list_action_dir_still = [act + '_still' for act in list_action_dir]
+
+    for i, act  in enumerate(list_action_dir_still):
+        list_single = []
+        list_single.append(dict_actions[list_action_dir[i]][0])
+        dict_actions[act] = list_single
+
+    # save all dict under 'action' and dump the file   
     dict_yml['actions'] = dict_actions
     str_yml = yaml.dump(dict_yml)
 
