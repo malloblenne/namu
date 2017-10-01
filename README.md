@@ -5,7 +5,7 @@ The main aim is to play around with python and the entity system component frame
 
 ## Graphics
 
-The graphics, sprite etc are coming from the [Liberated Pixel Cup](http://lpc.opengameart.org/lpc-blog) or compatible to those
+The graphics, sprite etc are coming from the [Liberated Pixel Cup](http://lpc.opengameart.org/lpc-blog) or compatible to those ones.
 
 
 ## Idea
